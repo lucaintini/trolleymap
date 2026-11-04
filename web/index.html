@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TrolleyMap: report an abandoned shopping trolley</title>
+<meta name="description" content="Spot an abandoned shopping trolley? Report it in 10 seconds. A live public map of dumped trolleys in Perth.">
+<meta property="og:title" content="TrolleyMap: report an abandoned trolley in 10 seconds">
+<meta property="og:image" content="https://lucaintini.ai/trolley/seed.jpg">
+<link rel="stylesheet" href="vendor/leaflet.css"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#13212b"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{--g:#0a7d4f;--o:#ff6a00;--d:#13212b}
+*{box-sizing:border-box}html,body{overflow-x:hidden;max-width:100%}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--d);background:#f5f7f6}
+header{background:var(--d);color:#fff;padding:18px 16px 20px}
+header h1{font-size:1.6rem;line-height:1.2;margin:4px 0 8px}header p{margin:0 0 14px;opacity:.85}
+.brand{font-weight:800;letter-spacing:.5px;color:#9fe3c4}
+.btn{display:inline-block;border:0;border-radius:12px;padding:14px 18px;font-size:1.05rem;font-weight:700;text-decoration:none;cursor:pointer;text-align:center}
+.pay{background:var(--o);color:#fff}.rep{background:var(--g);color:#fff}.sec{background:#e4ebe8;color:var(--d)}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row .btn{flex:1 1 140px}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}
+.tiers a{background:#fff2;color:#fff;border:1px solid #fff4;border-radius:10px;padding:10px;text-decoration:none;font-size:.9rem}
+.tiers b{display:block;font-size:1.1rem;color:#ffd2b0}
+main{padding:12px;max-width:900px;margin:0 auto}
+#map{height:55vh;min-height:320px;border-radius:12px;margin:10px 0}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.stat{background:#fff;border-radius:10px;padding:8px 12px;font-size:.9rem}.stat b{font-size:1.2rem;display:block}
+dialog{border:0;border-radius:14px;width:min(520px,96vw);padding:16px}dialog::backdrop{background:#0008}
+label{display:block;font-weight:600;margin:10px 0 4px}select,textarea,input[type=file]{width:100%;font-size:1rem;padding:8px;border-radius:8px;border:1px solid #bbb}
+#pickmap{height:220px;border-radius:10px}#preview{max-width:100%;max-height:180px;display:none;border-radius:8px;margin-top:6px}
+.popup img{width:200px;border-radius:6px}.tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:.8rem;font-weight:700}
+.tag.reported{background:#ffe1cc;color:#a33f00}.tag.collected{background:#cfeedd;color:#06603b}
+small{opacity:.7}footer{text-align:center;padding:20px;font-size:.85rem;opacity:.7}
+</style></head><body>
+<header>
+<div class="brand">TROLLEYMAP</div>
+<h1>Spot an abandoned trolley? Report it in 10 seconds.</h1>
+<p>Snap it, it lands on a live public map, and it stays there until someone collects it. Built live at the $1 Sprint, Perth.</p>
+<div class="row">
+<button class="btn rep" id="openReport">Report a trolley</button>
+<a class="btn pay" href="https://buy.stripe.com/dRmcN54Ied17eqd1JT8so01">Back it with $1</a>
+</div>
+<div class="tiers">
+<a href="https://buy.stripe.com/dRmcN54Ied17eqd1JT8so01"><b>$1+</b>Backer: your name on the wall</a>
+<a href="https://buy.stripe.com/eVq6oH1w2f9ffuh4W58so02"><b>$5</b>Founding supporter</a>
+<a href="https://buy.stripe.com/eVq9AT7Uq1ip1Dr74d8so03"><b>$20</b>Local hero: adopt a suburb</a>
+<a href="https://buy.stripe.com/14A7sLa2y0el4PDcox8so04"><b>$50</b>Business or council hotspot pilot</a>
+</div>
+</header>
+<main>
+<div class="stats" id="stats"></div>
+<div id="map"></div>
+<small>Tap a pin to see the photo or mark the trolley collected. Map data &copy; OpenStreetMap contributors.</small>
+</main>
+<footer><p>Idea by Susannah Soon, our first customer. Thank you Susannah!</p>TrolleyMap by <a href="https://lucaintini.ai/">Luca Intini</a>. No login, no ads. Please do not photograph faces or number plates.</footer>
+
+<dialog id="dlg"><form id="f" method="dialog">
+<h2 style="margin:0">Report a trolley</h2>
+<label>Photo</label><input type="file" id="photo" accept="image/*" capture="environment"><img id="preview" alt="">
+<label>Location <small id="gpsmsg">finding you...</small></label><div id="pickmap"></div><small>Drag the pin or tap the map to fix the spot.</small>
+<label>Store brand</label><select id="brand"><option value="">Not sure</option><option>Coles</option><option>Woolworths</option><option>Aldi</option><option>IGA</option><option>Kmart</option><option>Bunnings</option><option>Other</option></select>
+<label>Note (optional)</label><textarea id="note" rows="2" maxlength="300" placeholder="e.g. on the verge, been here 3 days"></textarea>
+<div class="row" style="margin-top:12px"><button type="button" class="btn sec" id="cancel">Cancel</button><button type="submit" class="btn rep" id="send">Submit report</button></div>
+<p id="err" style="color:#b00"></p>
+</form></dialog>
+
+<script src="vendor/leaflet.js"></script>
+<script src="app.js"></script></body></html>
