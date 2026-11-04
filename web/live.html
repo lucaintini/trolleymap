@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TrolleyMap live: money raised at the $1 Sprint</title>
+<meta name="description" content="Live count of real payments backing TrolleyMap at the $1 Sprint hackathon, Perth.">
+<meta property="og:title" content="TrolleyMap live: money raised right now">
+<meta property="og:image" content="https://lucaintini.ai/trolley/seed.jpg">
+<meta name="theme-color" content="#13212b"><link rel="icon" href="icon-192.png">
+<style>
+:root{--g:#0a7d4f;--o:#ff6a00;--d:#13212b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--d);color:#fff;padding:20px 16px 28px;max-width:560px;margin:0 auto;overflow-x:hidden}
+.brand{font-weight:800;letter-spacing:.5px;color:#9fe3c4}h1{font-size:1.45rem;line-height:1.2;margin:4px 0 14px}
+.live{display:inline-block;background:#d7263d;color:#fff;font-weight:800;font-size:.8rem;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:#fff;color:var(--d);border-radius:14px;padding:14px;text-align:center}
+.card b{display:block;font-size:2.6rem;line-height:1.1;font-weight:900}.card.money b{color:var(--g)}.card.n b{color:var(--o)}
+.card span{font-size:.9rem;font-weight:600;opacity:.75}
+.upd{font-size:.85rem;opacity:.75;margin:10px 0 18px;text-align:center}
+.btn{display:block;text-align:center;border-radius:12px;padding:18px;font-size:1.25rem;font-weight:800;text-decoration:none;color:#fff;background:var(--o);margin:0 0 10px}
+.btn.sec{background:#e4ebe8;color:var(--d);font-size:1rem;padding:14px}
+.qr{text-align:center;margin:14px 0}.qr img{background:#fff;padding:10px;border-radius:14px;width:min(220px,60vw);height:auto;image-rendering:pixelated}
+h2{font-size:1.1rem;margin:20px 0 8px}
+ul{list-style:none;padding:0;margin:0}li{background:#fff1;border-radius:10px;padding:10px 12px;margin:6px 0;display:flex;justify-content:space-between}
+li b{color:#ffd2b0}.tiers{font-size:.9rem;opacity:.85;margin-top:8px;text-align:center}
+footer{text-align:center;font-size:.8rem;opacity:.6;margin-top:22px}a.h{color:#9fe3c4}
+</style></head><body>
+<div class="brand">TROLLEYMAP <span class="live">LIVE</span></div>
+<h1>Money raised at the $1 Sprint</h1>
+<div class="cards">
+<div class="card money"><b id="total">$0</b><span>raised (AUD)</span></div>
+<div class="card n"><b id="backers">0</b><span id="blabel">backers</span></div>
+</div>
+<div class="tiers" id="tiers"></div>
+<div class="upd" id="upd">Loading live numbers...</div>
+<a class="btn" href="https://buy.stripe.com/dRmcN54Ied17eqd1JT8so01">Back it with $1 NOW</a>
+<div class="qr"><img src="qr-pay.png" alt="QR code: scan to pay $1" width="220" height="220"><div>Scan to pay $1</div></div>
+<a class="btn sec" href="back.html">More ways to back: $5, $20, $50</a>
+<h2>Latest payments</h2>
+<ul id="latest"><li>Be the first backer.</li></ul>
+<p style="text-align:center;margin-top:18px"><a class="h" href="./">See the live trolley map</a></p>
+<footer>Real Stripe payments to TrolleyMap only, refreshed every 30 seconds. No names or emails shown. Idea by Susannah Soon.</footer>
+<script src="live.js"></script>
+</body></html>
