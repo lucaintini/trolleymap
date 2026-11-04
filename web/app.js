@@ -5,7 +5,7 @@ const PERTH=[-31.9523,115.8613];
 const map=L.map('map').setView(PERTH,12);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
 const layer=L.layerGroup().addTo(map);
-const icon=c=>L.divIcon({className:'',html:`<div style="font-size:26px;filter:drop-shadow(0 1px 2px #0008)">${c==='collected'?'&#9989;':'&#128722;'}</div>`,iconSize:[30,30],iconAnchor:[15,15]});
+const icon=c=>L.divIcon({className:'',html:`<div style="width:34px;height:34px;line-height:30px;font-size:19px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px #000a;background:${c==='collected'?'#0a7d4f':'#ff6a00'}">${c==='collected'?'&#9989;':'&#128722;'}</div>`,iconSize:[34,34],iconAnchor:[17,17]});
 const esc=s=>(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function ago(t){const d=(Date.now()-new Date(t))/36e5;return d<1?Math.max(1,Math.round(d*60))+' min ago':d<48?Math.round(d)+' h ago':Math.round(d/24)+' days ago'}
 let rows=[];
