@@ -24,8 +24,8 @@ main{padding:12px;max-width:900px;margin:0 auto}
 dialog{border:0;border-radius:14px;width:min(520px,96vw);padding:16px}dialog::backdrop{background:#0008}
 label{display:block;font-weight:600;margin:10px 0 4px}select,textarea,input[type=file]{width:100%;font-size:1rem;padding:8px;border-radius:8px;border:1px solid #bbb}
 #pickmap{height:220px;border-radius:10px}#preview{max-width:100%;max-height:180px;display:none;border-radius:8px;margin-top:6px}
-.popup img{width:200px;border-radius:6px}.tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:.8rem;font-weight:700}
-.tag.reported{background:#ffe1cc;color:#a33f00}.tag.collected{background:#cfeedd;color:#06603b}
+.popup .photo{display:block;width:200px;max-width:100%;margin:0 0 4px;padding:0;border:0;background:#e4ebe8;border-radius:6px;cursor:zoom-in;line-height:0}.popup .photo img{width:100%;height:auto;min-height:96px;object-fit:cover;border-radius:6px;display:block;background:#e4ebe8}.popup .photohint{display:block;margin:0 0 6px}.tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:.8rem;font-weight:700}#lightbox{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.92);cursor:zoom-out}#lightbox.open{display:flex}#lightbox img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;touch-action:none}#lightbox .lb-close{position:absolute;top:calc(env(safe-area-inset-top,0px) + .75rem);right:calc(env(safe-area-inset-right,0px) + .75rem);z-index:1;padding:.55rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.55);color:#fff;font:600 .9rem system-ui,sans-serif;cursor:pointer}#lightbox p{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 1rem);margin:0;text-align:center;color:rgba(255,255,255,.75);font:500 .8rem system-ui,sans-serif;pointer-events:none}
+.tag.active,.tag.reported{background:#ffe1cc;color:#a33f00}.tag.doubted{background:#fff1b8;color:#7a5a00}.tag.stale{background:#eee3d8;color:#6b4a2b}.tag.gone,.tag.collected{background:#e1e6e4;color:#4b5752}.vrow{display:flex;gap:6px;margin-top:6px}.vrow .btn{padding:8px 10px;font-size:.95rem;flex:1}.vrow .btn:disabled{opacity:.5}#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#13212b;color:#fff;padding:12px 16px;border-radius:12px;font-weight:600;opacity:0;transition:opacity .2s;z-index:9999;max-width:90vw;text-align:center}#toast.show{opacity:1}
 small{opacity:.7}footer{text-align:center;padding:20px;font-size:.85rem;opacity:.7}
 .qr{text-align:center;margin:6px 0 16px}.qr img{background:#fff;padding:10px;border-radius:14px;width:min(260px,70vw);height:auto;image-rendering:pixelated}.qrt{font-size:1.5rem;font-weight:800;margin:8px 0 10px}.btn.big{display:block;font-size:1.25rem;padding:18px;max-width:420px;margin:0 auto}.tally{display:block;margin:10px 0 0;background:#9fe3c4;color:#13212b;border-radius:12px;padding:14px;font-size:1.1rem;font-weight:800;text-align:center;text-decoration:none}header.top{background:var(--d);color:#fff;padding:8px 12px}header.top h1{font-size:1rem;line-height:1.25;margin:2px 0 0}main{padding:8px 10px}#map{height:60vh;min-height:320px;margin:0 0 8px}.paybox{background:var(--d);color:#fff;border-radius:14px;padding:14px;margin:14px 0}.paybox p{margin:0 0 10px;opacity:.85}</style></head><body>
 <header class="top"><span class="brand">TROLLEYMAP</span><h1>Spot an abandoned trolley? Report it in 10 seconds.</h1></header>
@@ -37,7 +37,7 @@ small{opacity:.7}footer{text-align:center;padding:20px;font-size:.85rem;opacity:
 </div>
 <a class="tally" id="tally" href="live.html">Collected so far: see the live total</a>
 <div class="stats" id="stats"></div>
-<small>Tap a pin to see the photo or mark the trolley collected. Map data &copy; OpenStreetMap contributors.</small>
+<small>Tap a pin to see the photo, then tap the photo to view it full size. Say if the trolley is <b>Still there</b> or <b>Gone</b>. Two Gone votes from different people take it off the map; one Still there brings it back. Pins nobody has confirmed for a week fade. Anonymous: no login, no IP or identifier kept. Map data &copy; OpenStreetMap contributors.</small>
 <section class="paybox">
 <p>Snap it, it lands on a live public map, and it stays there until someone collects it. Built live at the $1 Sprint, Perth.</p>
 <div class="qr"><img src="qr-pay.png" alt="QR code: scan to pay $1" width="260" height="260"><div class="qrt">Scan to pay $1</div><a class="btn pay big" href="https://buy.stripe.com/dRmcN54Ied17eqd1JT8so01">Back it with $1 NOW</a></div>
@@ -55,11 +55,12 @@ small{opacity:.7}footer{text-align:center;padding:20px;font-size:.85rem;opacity:
 <label>Photo</label><input type="file" id="photo" accept="image/*" capture="environment"><img id="preview" alt="">
 <label>Location <small id="gpsmsg">finding you...</small></label><div id="pickmap"></div><small>Drag the pin or tap the map to fix the spot.</small>
 <label>Store brand</label><select id="brand"><option value="">Not sure</option><option>Coles</option><option>Woolworths</option><option>Aldi</option><option>IGA</option><option>Kmart</option><option>Bunnings</option><option>Other</option></select>
-<label>Note (optional)</label><textarea id="note" rows="2" maxlength="300" placeholder="e.g. on the verge, been here 3 days"></textarea>
+<label>Note (optional, no names or addresses)</label><textarea id="note" rows="2" maxlength="300" placeholder="e.g. on the verge, been here 3 days"></textarea>
 <div class="row" style="margin-top:12px"><button type="button" class="btn sec" id="cancel">Cancel</button><button type="submit" class="btn rep" id="send">Submit report</button></div>
 <p id="err" style="color:#b00"></p>
+<small>Privacy: the photo is re-drawn on your phone, so no GPS or camera details leave it. The spot is rounded to about 10 m. No account, and your IP address is never stored. Please keep faces and number plates out of the shot.</small>
 </form></dialog>
 
 <script src="vendor/leaflet.js"></script>
-<script src="app.js"></script>
+<script src="app.js?v=3"></script>
 <script src="tally.js"></script></body></html>
